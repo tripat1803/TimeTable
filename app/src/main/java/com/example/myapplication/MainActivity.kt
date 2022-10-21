@@ -1,3 +1,5 @@
+package com.example.myapplication
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,122 +21,71 @@ import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
+import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    lateinit var navController : NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            dropDown()
+            MyApplicationTheme {
+                navController = rememberNavController()
+                SetupNavGraph(navController = navController)
+            }
         }
     }
 }
 
-@Composable
-fun dropDown() {
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Time Table", color = Color.White) }, backgroundColor = Color(0xff0f9d58)) },
-        content = { MyContent() }
-    )
-}
+//@Composable
+//fun DropDown() {
+//    Scaffold(
+//        topBar = { TopAppBar(title = { Text("Time Table", color = Color.White) }, backgroundColor = Color(0xff0f9d58)) }
+//        content =
+//    )
+//}
 
 @Composable
-fun MyContent(){
-
-    var mExpanded by remember { mutableStateOf(false) }
-
-    // Create a list of cities
-    val mCities = listOf("G1","G2","G3","G4","G5")
-
-    // Create a string value to store the selected city
-    var mSelectedText by remember { mutableStateOf("") }
-
-    var mTextFieldSize by remember { mutableStateOf(Size.Zero)}
-
-    // Up Icon when expanded and down icon when collapsed
-    val icon = if (mExpanded)
-        Icons.Filled.KeyboardArrowUp
-    else
-        Icons.Filled.KeyboardArrowDown
-
-    Column(Modifier.padding(20.dp)) {
-
-        // Create an Outlined Text Field
-        // with icon and not expanded
-        OutlinedTextField(
-            value = mSelectedText,
-            onValueChange = { mSelectedText = it },
-            modifier = Modifier
+fun Details(){
+    Surface(
+        color = MaterialTheme.colors.primary,
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        Column() {
+            Row(modifier = Modifier
                 .fillMaxWidth()
-                .onGloballyPositioned { coordinates ->
-                    // This value is used to assign to
-                    // the DropDown the same width
-                    mTextFieldSize = coordinates.size.toSize()
-                },
-            label = {Text("Group")},
-            trailingIcon = {
-                Icon(icon,"contentDescription",
-                    Modifier.clickable { mExpanded = !mExpanded })
+                .padding(24.dp)) {
+                Text(text = "Name:")
+                Text(text = "Tripat")
             }
-        )
-
-        // Create a drop-down menu with list of cities,
-        // when clicked, set the Text Field text as the city selected
-        DropdownMenu(
-            expanded = mExpanded,
-            onDismissRequest = { mExpanded = false },
-            modifier = Modifier
-                .width(with(LocalDensity.current){mTextFieldSize.width.toDp()})
-        ) {
-            mCities.forEach { label ->
-                DropdownMenuItem(onClick = {
-                    mSelectedText = label
-                    mExpanded = false
-                }) {
-                    Text(text = label)
-                }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)) {
+                Text(text = "Roll Number:")
+                Text(text = "2110991455")
             }
-        }
-        if(mSelectedText.equals("G1")){
-            Image(
-                painter = painterResource(id = R.drawable.g1),
-                contentDescription = "G1",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        else if(mSelectedText.equals("G2")){
-            Image(
-                painter = painterResource(id = R.drawable.g2),
-                contentDescription = "G2",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        else if(mSelectedText.equals("G3")){
-            Image(
-                painter = painterResource(id = R.drawable.g3),
-                contentDescription = "G3",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        else if(mSelectedText.equals("G4")){
-            Image(
-                painter = painterResource(id = R.drawable.g4),
-                contentDescription = "G4",
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
-        else if(mSelectedText.equals("G5")){
-            Image(
-                painter = painterResource(id = R.drawable.g5),
-                contentDescription = "G5",
-                modifier = Modifier.fillMaxWidth()
-            )
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)) {
+                Text(text = "Branch:")
+                Text(text = "CSE")
+            }
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)) {
+                Text(text = "Year:")
+                Text(text = "2nd")
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    dropDown()
-}
+
+
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    DropDown()
+//}
